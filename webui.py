@@ -3,37 +3,8 @@
 import gradio as gr
 import os, gc, copy, torch
 from datetime import datetime
-from huggingface_hub import hf_hub_download
 from pynvml import *
 
-# Flag to check if GPU is present
-HAS_GPU = True
-
-# Model title and context size limit
-ctx_limit = 2000
-title = "RWKV-5-H-World-3B"
-model_file = "rwkv-5-h-world-3B"
-
-# Get the GPU count
-try:
-    nvmlInit()
-    GPU_COUNT = nvmlDeviceGetCount()
-    if GPU_COUNT > 0:
-        HAS_GPU = True
-        gpu_h = nvmlDeviceGetHandleByIndex(0)
-except NVMLError as error:
-    print(error)
-
-
-os.environ["RWKV_CUDA_ON"] = '1'
-MODEL_STRAT = "cuda fp16"
-
-# Load the model accordingly
-from rwkv.model import RWKV
-model_path = hf_hub_download(repo_id="a686d380/rwkv-5-h-world", filename=f"{model_file}.pth")
-model = RWKV(model=model_path, strategy=MODEL_STRAT)
-from rwkv.utils import PIPELINE, PIPELINE_ARGS
-pipeline = PIPELINE(model, "rwkv_vocab_v20230424")
 
 # Prompt generation
 def generate_prompt(instruction, input=""):
