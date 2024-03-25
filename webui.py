@@ -5,6 +5,7 @@ import os, gc, copy, torch
 from datetime import datetime
 from pynvml import *
 
+title = "RWKV"
 
 # Prompt generation
 def generate_prompt(instruction, input=""):
@@ -63,16 +64,17 @@ def evaluate(
             yield out_str.strip()
             out_last = i + 1
 
-    if HAS_GPU == True :
-        gpu_info = nvmlDeviceGetMemoryInfo(gpu_h)
-        print(f'vram {gpu_info.total} used {gpu_info.used} free {gpu_info.free}')
+    gpu_info = nvmlDeviceGetMemoryInfo(gpu_h)
+    print(f'vram {gpu_info.total} used {gpu_info.used} free {gpu_info.free}')
 
     del out
     del state
     gc.collect()
 
-    if HAS_GPU == True :
+    try:
         torch.cuda.empty_cache()
+    except Exception as e:
+        pass
 
     yield out_str.strip()
 
