@@ -26,7 +26,7 @@ except NVMLError as error:
 
 
 os.environ["RWKV_CUDA_ON"] = '1'
-MODEL_STRAT = "cuda int8"
+MODEL_STRAT = "cuda fp16i8"
 
 # Load the model accordingly
 from rwkv.model import RWKV
