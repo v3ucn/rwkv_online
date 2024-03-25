@@ -11,8 +11,8 @@ HAS_GPU = True
 
 # Model title and context size limit
 ctx_limit = 2000
-title = "RWKV-5-H-World-3B"
-model_file = "rwkv-5-h-world-3B"
+title = "RWKV-5-H-World-7B"
+model_file = "rwkv-5-h-world-7B"
 
 # Get the GPU count
 try:
@@ -26,7 +26,7 @@ except NVMLError as error:
 
 
 os.environ["RWKV_CUDA_ON"] = '1'
-MODEL_STRAT = "cuda bf16"
+MODEL_STRAT = "cuda int8"
 
 # Load the model accordingly
 from rwkv.model import RWKV
